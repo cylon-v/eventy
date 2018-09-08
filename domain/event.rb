@@ -19,6 +19,10 @@ class Event
       raise ValidationError, 'Event reached maximum invites number'
     end
 
+    if @invites.any?{|i| i.email == invite.email}
+      raise ValidationError, 'Invite to this email has already been added'
+    end
+
     @invites.push(invite)
   end
 
@@ -27,6 +31,6 @@ class Event
   end
 
   def accepted_invites_count
-    @invites.select{|i| i.accepted}.length
+    @invites.select{|i| i.accepted?}.length
   end
 end
