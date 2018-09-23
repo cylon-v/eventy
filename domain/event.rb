@@ -7,6 +7,7 @@ class Event
 
   def initialize(attrs = {})
     attrs.must_contain :name, :date_time, :invites_limit, :customer
+    attrs.value_of(:date_time).must_be > DateTime.now
 
     @name = attrs[:name]
     @date_time = attrs[:date_time]
