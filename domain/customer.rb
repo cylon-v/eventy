@@ -4,6 +4,8 @@ require './domain/errors/validation_error'
 class Customer
   include Validation
 
+  attr_reader :events
+
   def initialize(attrs = {}, payment_service)
     attrs.must_contain :name
 
