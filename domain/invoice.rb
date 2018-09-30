@@ -3,7 +3,7 @@ require './domain/mixins/validation'
 class Invoice
   include Validation
 
-  attr_reader :amount, :customer
+  attr_reader :amount
 
   def initialize(attrs={}, email_service)
     attrs.must_contain :event, :customer
@@ -21,5 +21,17 @@ class Invoice
 
   def pay
     @paid = true
+    notify_paid
+  end
+
+  def paid?
+    @paid
+  end
+
+  private
+
+  def notify_paid
+    message = "Dear #{@customer.name}, \n your invoice for event #{@event.name} has been paid."
+    @email_service.notify(@customer.email, @event.name, message)
   end
 end
